@@ -14,7 +14,7 @@ public class Player extends Entity {
     private final int PLAYERWIDTH = 16; // Width of the player
     private int positionX = 50; // Initial X position
     private int positionY = 50; // Initial Y position
-    private int speed = 5; // Speed of movement
+    private int speed = 2; // Speed of movement
     private int health = 100;
     private int damage = 10;
     private boolean dead;
@@ -46,16 +46,32 @@ public class Player extends Entity {
 
         switch(direction) {
             case "up":
+                if(spriteNumber == 1){
                 image = up0;
+                } else if(spriteNumber == 2){
+                    image = up1;
+                }
                 break;
             case "down":
-                image = down0;
+                if(spriteNumber == 1){
+                    image = down0;
+                }else if(spriteNumber == 2){
+                    image = down1;
+                }
                 break;
             case "left":
-                image = left0;
+                if(spriteNumber == 1){
+                    image = left0;
+                } else if(spriteNumber == 2){
+                    image = left1;
+                }
                 break;
             case "right":
-                image = right0;
+                if(spriteNumber == 1){
+                    image = right0;
+                } else if(spriteNumber == 2){
+                    image = right1;
+                }
                 break;
             default:
                 image = down0;
@@ -82,22 +98,42 @@ public class Player extends Entity {
     }
 
     public void update(){
-        if(keyHandler.upPressed){
-            direction = "up";
-            positionY = positionY - speed;
+
+        if(keyHandler.upPressed
+                || keyHandler.downPressed
+                || keyHandler.leftPressed
+                || keyHandler.rightPressed){
+
+            if(keyHandler.upPressed){
+                direction = "up";
+                positionY = positionY - speed;
+            }
+            if(keyHandler.downPressed){
+                direction = "down";
+                positionY = positionY + speed;
+            }
+            if(keyHandler.leftPressed){
+                direction = "left";
+                positionX = positionX - speed;
+            }
+            if(keyHandler.rightPressed){
+                direction = "right";
+                positionX = positionX + speed;
+            }
+
+            if(spriteCounter > 30){
+                if(spriteNumber == 1){
+                    spriteNumber = 2;
+                } else if(spriteNumber == 2){
+                    spriteNumber = 1;
+                }
+                spriteCounter = 0;
+            }
         }
-        if(keyHandler.downPressed){
-            direction = "down";
-            positionY = positionY + speed;
-        }
-        if(keyHandler.leftPressed){
-            direction = "left";
-            positionX = positionX - speed;
-        }
-        if(keyHandler.rightPressed){
-            direction = "right";
-            positionX = positionX + speed;
-        }
+        spriteCounter++;
+            System.out.println(spriteCounter);
+            System.out.println(spriteNumber);
+
     }
 
     public void setColor(Color color) {

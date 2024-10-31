@@ -37,30 +37,37 @@ public class Enemy extends Entity {
         g2.drawImage(image, x, y, 64, 64, null);
     }
 
-    public void update(){
-
+    public void update() {
         int playerX = player.getPositionX();
         int playerY = player.getPositionY();
-        int enemyX = x;
-        int enemyY = y;
 
         // Calculate direction vector
-        int diffX = playerX - enemyX;
-        int diffY = playerY - enemyY;
+        int diffX = playerX - x;
+        int diffY = playerY - y;
 
         // Calculate distance
         double distance = Math.sqrt(diffX * diffX + diffY * diffY);
 
-        //This needs more work !
-        // Normalize the direction vector and move enemy toward player
-        if (distance != 0) { // Avoid division by zero
+        // Only move if the distance is greater than a minimum threshold to avoid flickering
+        double minDistanceThreshold = 1.0;
+        if (distance > minDistanceThreshold) {
+            // Normalize the direction vector
             double moveX = (diffX / distance) * speed;
             double moveY = (diffY / distance) * speed;
 
-            // Update position with boundary checks
-            x = Math.max(0, Math.min((int) (enemyX + moveX), 800 - WIDTH)); // Example for width
-            y = Math.max(0, Math.min((int) (enemyY + moveY), 800 - HEIGHT)); // Example for height
+            // Update position
+            x = (int) (x + moveX);
+            y = (int) (y + moveY);
+
+            // Apply boundary constraints
+            constrainToBounds();
         }
+    }
+
+    // New method to constrain the enemy within panel bounds
+    private void constrainToBounds() {
+        x = Math.max(0, Math.min(x, 800 - WIDTH));
+        y = Math.max(0, Math.min(y, 800 - HEIGHT));
     }
 
     //Add enemy image here

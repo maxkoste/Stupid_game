@@ -40,8 +40,8 @@ public class Draw extends JPanel implements Runnable {
         g2.setColor(BACKGROUND_COLOR);
         g2.fillRect(0, 0, getWidth(), getHeight());
         // Draw sky color in the upper half
-        g2.setColor(SKY_COLOR);
-        g2.fillRect(0, 0, getWidth(), getHeight() / 2);
+        //g2.setColor(SKY_COLOR);
+        //g2.fillRect(0, 0, getWidth(), getHeight() / 2);
 
         //Draw player
         player.draw(g);
